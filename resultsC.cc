@@ -80,4 +80,10 @@ void resultsC::displayResults() {
   
   std::cout << "There are " << totalOtherNetworkPackets << " total other network layer protocol packets." << std::endl; 
   
+  
+  
+  // PART 2
+  
+  cout << "There are " << destinationMacs.size() << " unique destination mac addresses." << endl;
+  
 }

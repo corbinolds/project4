@@ -7,7 +7,9 @@
 //
 
 #include "project4.h"
+#include <vector>
 
+using namespace std;
 
 // ****************************************************************************
 // * pk_processor()
@@ -44,6 +46,28 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 		
 	}
 	
+
+	
+	int destinationMac1 = (int)packet[0];
+	int destinationMac2 = (int)packet[1];
+	int destinationMac3 = (int)packet[2];
+	int destinationMac4 = (int)packet[3];
+	int destinationMac5 = (int)packet[4];
+	int destinationMac6 = (int)packet[5];
+	
+	int destinationMac = (destinationMac1 * 1280) + (destinationMac2 * 1024) + (destinationMac3 * 768) + (destinationMac4 * 512) + (destinationMac5 * 256) + destinationMac6;
+	bool isUniqueDest = true;
+
+	for(int i = 0; i < results->getDestinationMacs().size(); i++) {
+		if (results->getDestinationMacs().at(i) == destinationMac) {
+			isUniqueDest = false;
+			break;
+		}
+	}
+	
+	if(isUniqueDest) {
+		results->addDestinationMac(destinationMac);
+	}
 
 	//increment total packet count
   results->incrementPacketCount();

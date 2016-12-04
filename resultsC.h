@@ -6,6 +6,10 @@
 //  Copyright 2012 Colorado School of Mines. All rights reserved.
 //
 
+#include <vector>
+
+using namespace std;
+
 #ifndef resultsC_h
 #define resultsC_h
 
@@ -49,6 +53,12 @@ class resultsC {
    //int averageSizeUDP;
    //int minSizeUDP;
    //int maxSizeUDP;
+   
+   
+   
+   
+   //PART 2
+   vector<int> destinationMacs;
 
   public:
    resultsC();
@@ -68,6 +78,12 @@ class resultsC {
    void incrementTotalOtherNetworkPackets() { totalOtherNetworkPackets++; };
    
    void displayResults();
+   
+   
+   //PART 2 
+   vector<int> getDestinationMacs() { return destinationMacs; };
+   
+   void addDestinationMac(int macAddress) { destinationMacs.push_back(macAddress); };
 };
 
 #endif
