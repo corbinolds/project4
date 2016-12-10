@@ -47,7 +47,7 @@ resultsC::resultsC() {
   //minSizeUDP = 0;
   //maxSizeUDP = 0;
   
-  //totalOtherTransportPackets = 0;
+  totalOtherTransportPackets = 0;
 }
 
 
@@ -69,14 +69,20 @@ void resultsC::displayResults() {
  	//network layer 
   cout << "------ NETWORK LAYER ------" << endl;
  	cout << "There are " << totalArpPackets << " total ARP packets." << endl;
-  cout << "ARP min size: '" << findMinSize(arpSizes) << "'. ARP max size: '" << findMaxSize(arpSizes) << "'. ARP average size: '" << findAverageSize(arpSizes) << "'." << endl;
+  cout << "ARP min size: '" << findMinSize(arpSizes) << "'. ARP max size: '" << findMaxSize(arpSizes) << "'. ARP average size: '" << findAverageSize(arpSizes) << "'." << endl << endl;
 
   cout << "There are " << totalIP4Packets << " total IPv4 packets." << endl;
+  cout << "IPv4 min size: '" << findMinSize(ipv4Sizes) << "'. IPv4 max size: '" << findMaxSize(ipv4Sizes) << "'. IPv4 average size: '" << findAverageSize(ipv4Sizes) << "'." << endl << endl;
   
   cout << "There are " << totalIP6Packets << " total IPv6 packets." << endl; 
+  cout << "IPv6 min size: '" << findMinSize(ipv6Sizes) << "'. IPv6 max size: '" << findMaxSize(ipv6Sizes) << "'. IPv6 average size: '" << findAverageSize(ipv6Sizes) << "'." << endl << endl;
   
-  cout << "There are " << totalOtherNetworkPackets << " total other network layer protocol packets." << endl; 
+  cout << "There are " << totalOtherNetworkPackets << " total other network layer protocol packets." << endl << endl; 
   
+  cout << "------ TRANSPORT LAYER ------" << endl;
+
+  cout << "There are " << totalOtherTransportPackets << " total other transport layer protocol packets." << endl << endl; 
+
   
   
   // PART 2

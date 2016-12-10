@@ -25,26 +25,41 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 	
 	int ethType = (ethType1 * 256) + ethType2;
 	
+	//link layer
 	if(ethType <= 1500) {
 		results->increment802Frames();
 		results->incrementTotalOtherNetworkPackets();
-		//results->incrementTotalOtherTransportPackets();
+		results->incrementTotalOtherTransportPackets();
 	}
 	else if(ethType >= 1536) {
 		results->incrementEthernetIIFrames();
 		
+		//network layer
 		if(ethType == 2048) {
 			results->incrementTotalIP4Packets();
+
+			//get packet length
+			// IN IPv4 THERE IS A TOTAL LENGTH FIELD IN THE HEADER, THIS IS THAT VALUE
+			int packetLength = (int)packet[16]*256 + (int)packet[17];
+			results->addIpv4Size(packetLength);
 		}
+
 		else if(ethType == 34525) {
 			results->incrementTotalIP6Packets();
+
+			// IN IPv6 THERE IS A PAYLOAD LENGTH FIELD IN THE HEADER, THIS IS THAT VALUE
+			int packetLength = (int)packet[18]*256 + (int)packet[19];
+			results->addIpv6Size(packetLength);
 		}
+
 		else if(ethType == 2054) {
 			results->incrementTotalArpPackets();
 			results->addArpSize(60);
 		}
+
 		else {
 			results->incrementTotalOtherNetworkPackets();
+			results->incrementTotalOtherTransportPackets();
 		}
 		
 	}
