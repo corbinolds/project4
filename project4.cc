@@ -28,6 +28,8 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 	//link layer
 	if(ethType <= 1500) {
 		results->increment802Frames();
+
+		// increment other network and transport packets since 802.3 is different than ethernet II
 		results->incrementTotalOtherNetworkPackets();
 		results->incrementTotalOtherTransportPackets();
 	}
@@ -35,6 +37,7 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 		results->incrementEthernetIIFrames();
 		
 		//network layer
+		//IPv4
 		if(ethType == 2048) {
 			results->incrementTotalIP4Packets();
 
@@ -42,19 +45,75 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 			// IN IPv4 THERE IS A TOTAL LENGTH FIELD IN THE HEADER, THIS IS THAT VALUE
 			int packetLength = (int)packet[16]*256 + (int)packet[17];
 			results->addIpv4Size(packetLength);
+
+
+			//transport layer for ipv4
+			int transportPacket = (int)packet[23];
+			//ICMP
+			if(transportPacket == 1) {
+				results->incrementTotalICMPPackets();
+
+				//since ICMP header length is 8 bytes, subtract 8 from the length found in the Network header
+				results->addICMPSize(packetLength - 8);
+			}
+			
+			//UDP
+			else if(transportPacket == 17) {
+				results->incrementTotalUDPPackets();
+			}
+
+			//TCP
+			else if(transportPacket == 6) {
+				results->incrementTotalTCPPackets();
+			}
+
+			else {
+				results->incrementTotalOtherTransportPackets();
+			}
+
 		}
 
+		//IPv6
 		else if(ethType == 34525) {
 			results->incrementTotalIP6Packets();
 
 			// IN IPv6 THERE IS A PAYLOAD LENGTH FIELD IN THE HEADER, THIS IS THAT VALUE
 			int packetLength = (int)packet[18]*256 + (int)packet[19];
 			results->addIpv6Size(packetLength);
+
+			//transport layer for ipv6
+			//NEXT HEADER FIELD IN THE HEADER
+			int transportPacket = (int)packet[20];
+			//ICMP
+			//CHECKS FOR IPv6 ICMP BECAUSE WE ARE USING IPv6 
+			if(transportPacket == 58) {
+				results->incrementTotalICMPPackets();
+
+				//since ICMP header length is 8 bytes, subtract 8 from the length found in the Network header
+				results->addICMPSize(packetLength - 8);
+			}
+			
+			//UDP
+			else if(transportPacket == 17) {
+				results->incrementTotalUDPPackets();
+			}
+
+			//TCP
+			else if(transportPacket == 6) {
+				results->incrementTotalTCPPackets();
+			}
+
+			else {
+				results->incrementTotalOtherTransportPackets();
+			}
 		}
 
+		//ARP
 		else if(ethType == 2054) {
 			results->incrementTotalArpPackets();
 			results->addArpSize(60);
+
+			// ARP DOESN'T HAVE ANY TRANSPORT LAYER SO NO TRANSPORT LAYER INCREMENT NEEDED
 		}
 
 		else {
@@ -85,6 +144,27 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 	
 	if(isUniqueDest) {
 		results->addDestinationMac(destinationMac);
+	}
+
+	int sourceMac1 = (int)packet[6];
+	int sourceMac2 = (int)packet[7];
+	int sourceMac3 = (int)packet[8];
+	int sourceMac4 = (int)packet[9];
+	int sourceMac5 = (int)packet[10];
+	int sourceMac6 = (int)packet[11];
+	
+	int sourceMac = (sourceMac1 * 1280) + (sourceMac2 * 1024) + (sourceMac3 * 768) + (sourceMac4 * 512) + (sourceMac5 * 256) + sourceMac6;
+	bool isUniqueSource = true;
+
+	for(int i = 0; i < results->getSourceMacs().size(); i++) {
+		if (results->getSourceMacs().at(i) == sourceMac) {
+			isUniqueSource = false;
+			break;
+		}
+	}
+	
+	if(isUniqueSource) {
+		results->addSourceMac(sourceMac);
 	}
 
 	//increment total packet count

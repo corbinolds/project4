@@ -23,30 +23,14 @@ resultsC::resultsC() {
   
   // network layer
   totalArpPackets = 0;
-
   totalIP4Packets = 0;
-
-   
   totalIP6Packets = 0;
-
   totalOtherNetworkPackets = 0;
   
   // transport layer
-  //totalICMPPackets = 0;
-  //averageSizeICMP = 0;
-  //minSizeICMP = 0;
-  //maxSizeICMP = 0;
-   
-  //totalTCPPackets = 0;
-  //averageSizeTCP = 0;
-  //minSizeTCP = 0;
-  //maxSizeTCP = 0;
-   
-  //totalUPDPackets = 0;
-  //averageSizeUDP = 0;
-  //minSizeUDP = 0;
-  //maxSizeUDP = 0;
-  
+  totalICMPPackets = 0;
+  totalTCPPackets = 0;
+  totalUDPPackets = 0;
   totalOtherTransportPackets = 0;
 }
 
@@ -80,13 +64,21 @@ void resultsC::displayResults() {
   cout << "There are " << totalOtherNetworkPackets << " total other network layer protocol packets." << endl << endl; 
   
   cout << "------ TRANSPORT LAYER ------" << endl;
+  cout << "There are " << totalICMPPackets << " total ICMP packets." << endl; 
+  cout << "ICMP min size: '" << findMinSize(icmpSizes) << "'. ICMP max size: '" << findMaxSize(icmpSizes) << "'. ICMP average size: '" << findAverageSize(icmpSizes) << "'." << endl << endl;
 
+  cout << "There are " << totalTCPPackets << " total TCP packets." << endl; 
+  // cout << "TCP min size: '" << findMinSize(tcpSizes) << "'. TCP max size: '" << findMaxSize(tcpSizes) << "'. TCP average size: '" << findAverageSize(tcpSizes) << "'." << endl << endl;
+  
+  cout << "There are " << totalUDPPackets << " total UDP packets." << endl; 
+  // cout << "UDP min size: '" << findMinSize(udpSizes) << "'. UDP max size: '" << findMaxSize(udpSizes) << "'. UDP average size: '" << findAverageSize(udpSizes) << "'." << endl << endl;
+  
   cout << "There are " << totalOtherTransportPackets << " total other transport layer protocol packets." << endl << endl; 
 
   
-  
   // PART 2
-  
   cout << "There are " << destinationMacs.size() << " unique destination mac addresses." << endl;
+  cout << "There are " << sourceMacs.size() << " unique source mac addresses." << endl;
+
   
 }

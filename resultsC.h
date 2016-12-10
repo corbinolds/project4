@@ -33,28 +33,20 @@ class resultsC {
    int totalOtherNetworkPackets;
    
    // transport layer
-   //int totalICMPPakcets;
-   //int averageSizeICMP;
-   //int minSizeICMP;
-   //int maxSizeICMP;
-   
-   //int totalTCPPackets;
-   //int averageSizeTCP;
-   //int minSizeTCP;
-   //int maxSizeTCP;
-   
-   //int totalUPDPackets;
-   //int averageSizeUDP;
-   //int minSizeUDP;
-   //int maxSizeUDP;
+   int totalICMPPackets;
+   vector<int> icmpSizes;
 
+   int totalTCPPackets;
+   vector<int> tcpSizes;
+   
+   int totalUDPPackets;
+   vector<int> udpSizes;
+   
    int totalOtherTransportPackets;
-   
-   
-   
    
    //PART 2
    vector<int> destinationMacs;
+   vector<int> sourceMacs;
 
   public:
    resultsC();
@@ -77,7 +69,14 @@ class resultsC {
    void incrementTotalOtherNetworkPackets() { totalOtherNetworkPackets++; };
 
    //transport layer
+   void incrementTotalICMPPackets() { totalICMPPackets++; };
+   void addICMPSize(int icmpSize) { icmpSizes.push_back(icmpSize); };
 
+   void incrementTotalTCPPackets() { totalTCPPackets++; };
+   void addTCPSize(int tcpSize) { tcpSizes.push_back(tcpSize); };
+
+   void incrementTotalUDPPackets() { totalUDPPackets++; };
+   void addUDPSize(int udpSize) { udpSizes.push_back(udpSize); };
 
    void incrementTotalOtherTransportPackets() { totalOtherTransportPackets++; };
    
@@ -128,8 +127,10 @@ class resultsC {
    
    //PART 2 
    vector<int> getDestinationMacs() { return destinationMacs; };
+   vector<int> getSourceMacs() { return sourceMacs; };
    
    void addDestinationMac(int macAddress) { destinationMacs.push_back(macAddress); };
+   void addSourceMac(int macAddress) { sourceMacs.push_back(macAddress); };
 };
 
 #endif
