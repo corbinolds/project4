@@ -22,19 +22,13 @@ class resultsC {
    
    // network layer
    int totalArpPackets;
-   //int averageSizeArp;
-   //int minSizeArp;
-   //int maxSizeArp;
+   vector<int> arpSizes;
    
    int totalIP4Packets;
-   //int averageSizeIP4;
-   //int minSizeIP4;
-   //int maxSizeIP4;
+   vector<int> ip4sizes;
    
    int totalIP6Packets;
-   //int averageSizeIP6;
-   //int minSizeIP6;
-   //int maxSizeIP6;
+   vector<int> ip6sizes;
    
    int totalOtherNetworkPackets;
    
@@ -70,6 +64,8 @@ class resultsC {
    
    //network layer
    void incrementTotalArpPackets() { totalArpPackets++; };
+   void addArpSize (int arpSize) { arpSizes.push_back(arpSize); };
+
    
    void incrementTotalIP4Packets() { totalIP4Packets++; };
    
@@ -78,6 +74,44 @@ class resultsC {
    void incrementTotalOtherNetworkPackets() { totalOtherNetworkPackets++; };
    
    void displayResults();
+
+   // for finding averages and mins and maxes
+   int findAverageSize(vector<int> sizeVector) {
+      int average = 0;
+      for (int i = 0; i < sizeVector.size(); i++) {
+         average = average + sizeVector.at(i);
+      }
+
+      return average/sizeVector.size();
+   };
+
+   int findMinSize(vector<int> sizeVector) {
+      int min = 0;
+      bool isSet = false;
+
+      for (int i = 0; i < sizeVector.size(); i++) {
+         if (sizeVector[i] < min || isSet == false) {
+            min = sizeVector[i];
+            isSet = true;
+         }
+      }
+
+      return min;
+   };
+
+   int findMaxSize(vector<int> sizeVector) {
+      int max = 0;
+      bool isSet = false;
+
+      for (int i = 0; i < sizeVector.size(); i++) {
+         if (sizeVector[i] > max || isSet == false) {
+            max = sizeVector[i];
+            isSet = true;
+         }
+      }
+
+      return max;
+   };
    
    
    //PART 2 

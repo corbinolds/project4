@@ -8,6 +8,8 @@
 
 #include "project4.h"
 
+using namespace std;
+
 // ***************************************************************************
 // * resultsC::resultsC
 // *  Constructor for the results container class.  
@@ -21,20 +23,12 @@ resultsC::resultsC() {
   
   // network layer
   totalArpPackets = 0;
-  //averageSizeArp = 0;
-  //minSizeArp = 0;
-  //maxSizeArp = 0;
 
   totalIP4Packets = 0;
-  //averageSizeIP4 = 0;
-  //minSizeIP4 = 0;
-  //maxSizeIP4 = 0;
+
    
   totalIP6Packets = 0;
-  //averageSizeIP6 = 0;
-  //minSizeIP6 = 0;
-  //maxSizeIP6 = 0;
-  
+
   totalOtherNetworkPackets = 0;
   
   // transport layer
@@ -65,20 +59,23 @@ resultsC::resultsC() {
 // ***************************************************************************
 void resultsC::displayResults() {
 
-  std::cout << "A total of " << totalPacketCount << " packets processed." << std::endl;
+  cout << "A total of " << totalPacketCount << " packets processed." << endl << endl;
   
   //link layer
-  std::cout << "There are " << totalEthernetIIFrames << " total Ethernet II frames." << std::endl;
-  std::cout << "There are " << number802frames << " total 802.3 frames." << std::endl;
+  cout << "------ LINK LAYER ------" << endl;
+  cout << "There are " << totalEthernetIIFrames << " total Ethernet II frames." << endl;
+  cout << "There are " << number802frames << " total 802.3 frames." << endl << endl;
   
  	//network layer 
- 	std::cout << "There are " << totalArpPackets << " total ARP packets." << std::endl;
- 	
-  std::cout << "There are " << totalIP4Packets << " total IPv4 packets." << std::endl;
+  cout << "------ NETWORK LAYER ------" << endl;
+ 	cout << "There are " << totalArpPackets << " total ARP packets." << endl;
+  cout << "ARP min size: '" << findMinSize(arpSizes) << "'. ARP max size: '" << findMaxSize(arpSizes) << "'. ARP average size: '" << findAverageSize(arpSizes) << "'." << endl;
+
+  cout << "There are " << totalIP4Packets << " total IPv4 packets." << endl;
   
-  std::cout << "There are " << totalIP6Packets << " total IPv6 packets." << std::endl; 
+  cout << "There are " << totalIP6Packets << " total IPv6 packets." << endl; 
   
-  std::cout << "There are " << totalOtherNetworkPackets << " total other network layer protocol packets." << std::endl; 
+  cout << "There are " << totalOtherNetworkPackets << " total other network layer protocol packets." << endl; 
   
   
   

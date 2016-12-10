@@ -27,6 +27,8 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 	
 	if(ethType <= 1500) {
 		results->increment802Frames();
+		results->incrementTotalOtherNetworkPackets();
+		//results->incrementTotalOtherTransportPackets();
 	}
 	else if(ethType >= 1536) {
 		results->incrementEthernetIIFrames();
@@ -39,6 +41,7 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 		}
 		else if(ethType == 2054) {
 			results->incrementTotalArpPackets();
+			results->addArpSize(60);
 		}
 		else {
 			results->incrementTotalOtherNetworkPackets();
