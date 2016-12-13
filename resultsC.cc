@@ -68,10 +68,10 @@ void resultsC::displayResults() {
   cout << "ICMP min size: '" << findMinSize(icmpSizes) << "'. ICMP max size: '" << findMaxSize(icmpSizes) << "'. ICMP average size: '" << findAverageSize(icmpSizes) << "'." << endl << endl;
 
   cout << "There are " << totalTCPPackets << " total TCP packets." << endl; 
-  // cout << "TCP min size: '" << findMinSize(tcpSizes) << "'. TCP max size: '" << findMaxSize(tcpSizes) << "'. TCP average size: '" << findAverageSize(tcpSizes) << "'." << endl << endl;
+  cout << "TCP min size: '" << findMinSize(tcpSizes) << "'. TCP max size: '" << findMaxSize(tcpSizes) << "'. TCP average size: '" << findAverageSize(tcpSizes) << "'." << endl << endl;
   
   cout << "There are " << totalUDPPackets << " total UDP packets." << endl; 
-  // cout << "UDP min size: '" << findMinSize(udpSizes) << "'. UDP max size: '" << findMaxSize(udpSizes) << "'. UDP average size: '" << findAverageSize(udpSizes) << "'." << endl << endl;
+  cout << "UDP min size: '" << findMinSize(udpSizes) << "'. UDP max size: '" << findMaxSize(udpSizes) << "'. UDP average size: '" << findAverageSize(udpSizes) << "'." << endl << endl;
   
   cout << "There are " << totalOtherTransportPackets << " total other transport layer protocol packets." << endl << endl; 
 
@@ -79,6 +79,8 @@ void resultsC::displayResults() {
   // PART 2
   cout << "There are " << destinationMacs.size() << " unique destination mac addresses." << endl;
   cout << "There are " << sourceMacs.size() << " unique source mac addresses." << endl;
+  cout << "There are " << numSynPackets << " total SYN packets." << endl;
+  cout << "There are " << numFinPackets << " total FIN packets." << endl;
 
   
 }

@@ -47,6 +47,8 @@ class resultsC {
    //PART 2
    vector<int> destinationMacs;
    vector<int> sourceMacs;
+   int numSynPackets;
+   int numFinPackets;
 
   public:
    resultsC();
@@ -131,6 +133,8 @@ class resultsC {
    
    void addDestinationMac(int macAddress) { destinationMacs.push_back(macAddress); };
    void addSourceMac(int macAddress) { sourceMacs.push_back(macAddress); };
+   void incrementSynPacket() { numSynPackets++; };
+   void incrementFinPacket() { numFinPackets++; };
 };
 
 #endif

@@ -60,11 +60,25 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 			//UDP
 			else if(transportPacket == 17) {
 				results->incrementTotalUDPPackets();
+				results->addUDPSize(packetLength - 8.0);
 			}
 
 			//TCP
 			else if(transportPacket == 6) {
 				results->incrementTotalTCPPackets();
+
+				int tcpPacket = (int)packet[14] % (16);
+				int tcpLength = (int)(packet[tcpPacket + 12] - (packet[tcpPacket + 12] % 16)) / 4;
+				
+				results->addTCPSize(packetLength - tcpLength);
+
+				//CHECK SYN AND FIN ONLY TCP HAS
+				if((packet[67] & 2) == 2) {
+					results->incrementSynPacket();
+				} 
+				if((packet[67] & 1) == 1) {
+					results->incrementFinPacket();
+				}
 			}
 
 			else {
@@ -96,11 +110,25 @@ void pk_processor(u_char *user, const struct pcap_pkthdr *pkthdr, const u_char *
 			//UDP
 			else if(transportPacket == 17) {
 				results->incrementTotalUDPPackets();
+				results->addUDPSize(packetLength - 8.0);
 			}
 
 			//TCP
 			else if(transportPacket == 6) {
 				results->incrementTotalTCPPackets();
+
+				int tcpLength = (int)(packet[66] - (packet[66] % 16)) / 4;
+
+				results->addTCPSize(packetLength - tcpLength);
+
+				//CHECK SYN AND FIN ONLY TCP HAS
+				if((packet[67] & 2) == 2) {
+					results->incrementSynPacket();
+				} 
+				if((packet[67] & 1) == 1) {
+					results->incrementFinPacket();
+				}
+
 			}
 
 			else {
